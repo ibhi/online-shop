@@ -14,16 +14,16 @@ const initialState: ProductsState = {
     products: <Products> {} 
 };
 
-export function reducer(state = initialState, action: products.Actions): ProductsState {
+export function productsReducer(state = initialState, action: products.Actions): ProductsState {
     switch (action.type) {
-        case products.LOAD: {
+        case products.GET_ALL: {
             return {
                 ...state,
                 loading: true
             };
         }
 
-        case products.LOAD_SUCCESS: {
+        case products.GET_ALL_SUCCESS: {
             return {
                 loaded: true,
                 loading: false,
@@ -31,13 +31,30 @@ export function reducer(state = initialState, action: products.Actions): Product
             };
         }
 
-        case products.LOAD_FAILURE: {
+        case products.GET_ALL_FAILURE: {
             return {
                 ...state,
                 loaded: false,
                 loading: false,
             };
         }
+
+        case products.GET_ALL_BY_CATEGORY: {
+            return {
+                ...state,
+                loading: true,
+                loaded: false
+            };
+        }
+
+        case products.GET_ALL_BY_CATEGORY_SUCCESS: {
+            return {
+                products: { data: action.payload },
+                loaded: true,
+                loading: false
+            }
+        }
+
         default:
             return state;
     }

@@ -7,8 +7,9 @@ import { EffectsModule } from '@ngrx/effects';
 import { AppComponent } from './app.component';
 import { ProductsModule } from './products/products.module';
 import { CoreModule } from './core/core.module';
-import { reducer as productsReducer } from './products/reducers/products';
 import { ProductsEffects } from './products/effects/products';
+import { CategoriesEffects } from './categories/effects/categories';
+import { appReducer } from './app.reducer';
 
 @NgModule({
   declarations: [
@@ -18,11 +19,9 @@ import { ProductsEffects } from './products/effects/products';
     BrowserModule,
     CoreModule,
     ProductsModule,
-    StoreModule.forRoot({
-      products: productsReducer
-    }),
+    StoreModule.forRoot(appReducer),
     StoreDevtoolsModule.instrument(),
-    EffectsModule.forRoot([ProductsEffects])
+    EffectsModule.forRoot([ProductsEffects, CategoriesEffects])
   ],
   providers: [],
   bootstrap: [AppComponent]

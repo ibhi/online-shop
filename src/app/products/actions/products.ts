@@ -1,27 +1,61 @@
 import { Action } from '@ngrx/store';
 import { Products } from '../models/products';
+import { Product } from '../../product/models/product';
 
-export const LOAD = '[Products] Load';
-export const LOAD_SUCCESS = '[Products] Load Success';
-export const LOAD_FAILURE = '[Products] Load Failure';
+export const GET_ALL = '[Products] Get All';
+export const GET_ALL_SUCCESS = '[Products] Get All Success';
+export const GET_ALL_FAILURE = '[Products] Get All Failure';
+export const VISIBILITY_FILTER = '[Products] Visibility Filter';
+export const GET_ALL_BY_CATEGORY = '[Products] Get All By Category';
+export const GET_ALL_BY_CATEGORY_SUCCESS = '[Products] Get All By Category Success';
+export const GET_ALL_BY_CATEGORY_FAILURE = '[Products] Get All By Category Failure';
 
-export class Load implements Action {
-    readonly type = LOAD;
+
+export class GetAll implements Action {
+    readonly type = GET_ALL;
 }
 
-export class LoadSuccess implements Action {
-    readonly type = LOAD_SUCCESS;
+export class GetAllSuccess implements Action {
+    readonly type = GET_ALL_SUCCESS;
 
     constructor(public payload: Products) {  }
 }
 
-export class LoadFailure implements Action {
-    readonly type = LOAD_FAILURE;
+export class GetAllFailure implements Action {
+    readonly type = GET_ALL_FAILURE;
 
     constructor(public payload: any) {  }
 }
 
+export class VisibilityFilter implements Action {
+    readonly type = VISIBILITY_FILTER;
+
+    constructor(public payload: string[]) { }
+}
+
+export class GetAllByCategory implements Action {
+    readonly type = GET_ALL_BY_CATEGORY;
+
+    constructor(public payload: string) { }
+}
+
+export class GetAllByCategorySuccess implements Action {
+    readonly type = GET_ALL_BY_CATEGORY_SUCCESS;
+
+    constructor(public payload: Product[]) { }
+}
+
+export class GetAllByCategoryFailure implements Action {
+    readonly type = GET_ALL_BY_CATEGORY_FAILURE;
+
+    constructor(public payload: any) { }
+}
+
 export type Actions = 
-    | Load
-    | LoadSuccess
-    | LoadFailure;
+    | GetAll
+    | GetAllSuccess
+    | GetAllFailure
+    | VisibilityFilter
+    | GetAllByCategory
+    | GetAllByCategorySuccess
+    | GetAllByCategoryFailure;

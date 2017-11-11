@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as fromProducts from './products/reducers/products';
-import * as actions from './products/actions/products';
+import { AppState } from './app.reducer';
+import * as productActions from './products/actions/products';
+import * as categoriesActions from './categories/actions/categories';
+
 
 @Component({
   selector: 'app-root',
@@ -11,9 +13,11 @@ import * as actions from './products/actions/products';
 export class AppComponent implements OnInit {
   title = 'app';
 
-  constructor(private store: Store<fromProducts.ProductsState>) {}
+  constructor(private store: Store<AppState>) {}
 
   ngOnInit() {
-    this.store.dispatch(new actions.Load());
+    this.store.dispatch(new productActions.GetAll());
+    // this.store.dispatch(new categoriesActions.Load());
+    // this.store.dispatch(new productActions.GetAllByCategory('ddbb6ccf-6745-4218-a766-fd9b40276264'));
   }
 }
