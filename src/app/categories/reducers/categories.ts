@@ -3,41 +3,35 @@ import { Categories } from '../models/categories';
 import * as fromCategories from '../actions/categories';
 
 export interface CategoriesState {
-    loaded: boolean;
-    loading: boolean;
     categories: Categories;
+    selectedCategories: string[];
+    
 }
 
 const initialState: CategoriesState = {
-    loaded: false,
-    loading: false,
-    categories: <Categories> {} 
+    categories: <Categories> {},
+    selectedCategories: [] 
 };
 
 export function categoriesReducer(state = initialState, action: fromCategories.Actions): CategoriesState {
     switch (action.type) {
-        case fromCategories.LOAD: {
-            return {
-                ...state,
-                loading: true
-            };
-        }
 
         case fromCategories.LOAD_SUCCESS: {
             return {
-                loaded: true,
-                loading: false,
+                ...state,
                 categories: action.payload
             };
         }
 
-        case fromCategories.LOAD_FAILURE: {
+        case fromCategories.SELECT: {
             return {
                 ...state,
-                loaded: false,
-                loading: false,
-            };
+                selectedCategories: [...state.selectedCategories, action.payload]
+            }
         }
+
+        case fromCategories.LOAD:
+        case fromCategories.LOAD_FAILURE:
         default:
             return state;
     }

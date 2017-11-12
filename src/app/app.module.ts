@@ -9,7 +9,7 @@ import { ProductsModule } from './products/products.module';
 import { CoreModule } from './core/core.module';
 import { ProductsEffects } from './products/effects/products';
 import { CategoriesEffects } from './categories/effects/categories';
-import { appReducer } from './app.reducer';
+import { appReducer, metaReducers } from './app.reducer';
 
 @NgModule({
   declarations: [
@@ -19,7 +19,7 @@ import { appReducer } from './app.reducer';
     BrowserModule,
     CoreModule,
     ProductsModule,
-    StoreModule.forRoot(appReducer),
+    StoreModule.forRoot(appReducer, { metaReducers } ),
     StoreDevtoolsModule.instrument(),
     EffectsModule.forRoot([ProductsEffects, CategoriesEffects])
   ],

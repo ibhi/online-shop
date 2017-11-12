@@ -30,7 +30,7 @@ export class GetAllFailure implements Action {
 export class VisibilityFilter implements Action {
     readonly type = VISIBILITY_FILTER;
 
-    constructor(public payload: string[]) { }
+    constructor(public payload: { filter: string, id?: string[] }) { }
 }
 
 export class GetAllByCategory implements Action {

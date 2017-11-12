@@ -8,7 +8,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/switchMap';
 
-import * as actions from '../actions/products';
+import * as productActions from '../actions/products';
+import * as categoriesActions from '../../categories/actions/categories';
 import { moltinToken } from '../../core/moltin/provider/moltin.provider';
 import { Products } from '../models/products';
 import { Product } from '../../product/models/product';
@@ -28,18 +29,19 @@ export class ProductsEffects {
     
     @Effect()
     loadProducts$: Observable<Action> = this.actions$
-        .ofType(actions.GET_ALL)
+        .ofType(productActions.GET_ALL)
         .switchMap(() => fromPromise(this.moltin.Products.All())
-            .map((products: Products) => { console.log(products); return new actions.GetAllSuccess(products); })
-            .catch((error) => of(new actions.GetAllFailure(error)))
+            .map((products: Products) => { console.log(products); return new productActions.GetAllSuccess(products); })
+            // .map(() => new categoriesActions.Select('ddbb6ccf-6745-4218-a766-fd9b40276264'))
+            .catch((error) => of(new productActions.GetAllFailure(error)))
         );
 
     @Effect()
     loadProductsByCategory$: Observable<Action> = this.actions$
-        .ofType(actions.GET_ALL_BY_CATEGORY)
-        .switchMap((action: actions.GetAllByCategory) => fromPromise(this.moltin.Categories.Get(action.payload))
-            .map((category: CategoryResponse) => { console.log(category); return new actions.GetAllByCategorySuccess(category.data.relationships.products.data); })
-            .catch((error) => of(new actions.GetAllByCategoryFailure(error))
+        .ofType(productActions.GET_ALL_BY_CATEGORY)
+        .switchMap((action: productActions.GetAllByCategory) => fromPromise(this.moltin.Categories.Get(action.payload))
+            .map((category: CategoryResponse) => { console.log(category); return new productActions.GetAllByCategorySuccess(category.data.relationships.products.data); })
+            .catch((error) => of(new productActions.GetAllByCategoryFailure(error))
         )
     );
 
