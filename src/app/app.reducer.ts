@@ -40,7 +40,20 @@ const visibleProductsBySelectedCategory = (selectedCategories: string[], product
         return productsState;
     }
 
-    const filteredProducts = productsState.products.data.filter((product) => product.relationships.categories.data[0].id === selectedCategories[0]);
+    const filteredProducts = productsState.products.data.reduce((filteredProducts, product) => {
+        product.relationships.categories.data.forEach((category) => {
+            selectedCategories.forEach((selectedCategory) => {
+                if(selectedCategory === category.id) {
+                    if(filteredProducts.indexOf(product) === -1) {
+                        filteredProducts.push(product)
+                    }
+                }
+            })
+        })
+        return filteredProducts;
+    }, []);
+
+    // const filteredProducts = productsState.products.data.filter((product) => product.relationships.categories.data[0].id === selectedCategories[selectedCategories.length-1]);
 
         return {
             ...productsState,

@@ -23,7 +23,10 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.store.dispatch(new productActions.GetAll());
     setTimeout(
-      () => this.store.dispatch(new categoriesActions.Select('ddbb6ccf-6745-4218-a766-fd9b40276264')),
+      () => { 
+        this.store.dispatch(new categoriesActions.Select('ddbb6ccf-6745-4218-a766-fd9b40276264'));
+        setTimeout(() => this.store.dispatch(new categoriesActions.Select('0535d2aa-0f3f-4d9d-9fc4-1bfc5d6bbc5a')), 5000);
+      },
       10000
     );
     this.store.dispatch(new categoriesActions.Load());
