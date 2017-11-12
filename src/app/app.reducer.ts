@@ -1,10 +1,11 @@
-import { ActionReducerMap, MetaReducer, ActionReducer } from '@ngrx/store';
+import { ActionReducerMap, MetaReducer, ActionReducer, createSelector } from '@ngrx/store';
 import { storeFreeze } from 'ngrx-store-freeze';
+import { storeLogger } from 'ngrx-store-logger';
 
 import { ProductsState, productsReducer } from './products/reducers/products';
 import { CategoriesState, categoriesReducer } from './categories/reducers/categories';
 import { environment } from '../environments/environment'; // Angular CLI environment
-import { createSelector } from '@ngrx/store/src/selector';
+import { Product } from './product/models/product';
 
 export interface AppState {
     products: ProductsState;
@@ -17,13 +18,18 @@ export const appReducer: ActionReducerMap<AppState> = {
 };
 
 // console.log all actions
-export function logger(reducer: ActionReducer<AppState>): ActionReducer<AppState> {
-    return function (state: AppState, action: any): AppState {
-        console.log('state', state);
-        console.log('action', action);
+// export function logger(reducer: ActionReducer<AppState>): ActionReducer<AppState> {
+//     return function (state: AppState, action: any): AppState {
+//         console.log('state', state);
+//         console.log('action', action);
 
-        return reducer(state, action);
-    };
+//         return reducer(state, action);
+//     };
+// }
+
+export function logger(reducer: ActionReducer<AppState>): any {
+    // default, no options
+    return storeLogger()(reducer);
 }
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [logger, storeFreeze] : [];
@@ -40,7 +46,7 @@ const visibleProductsBySelectedCategory = (selectedCategories: string[], product
         return productsState;
     }
 
-    const filteredProducts = productsState.products.data.reduce((filteredProducts, product) => {
+    const filteredProducts: Product[] = productsState.products.data.reduce((filteredProducts, product) => {
         product.relationships.categories.data.forEach((category) => {
             selectedCategories.forEach((selectedCategory) => {
                 if(selectedCategory === category.id) {
@@ -65,4 +71,3 @@ const visibleProductsBySelectedCategory = (selectedCategories: string[], product
 }
 
 export const visibleProductsSelector = createSelector(selectedCategoriesSelector, productsSelector, visibleProductsBySelectedCategory);
-

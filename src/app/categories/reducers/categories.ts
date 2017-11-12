@@ -23,10 +23,17 @@ export function categoriesReducer(state = initialState, action: fromCategories.A
             };
         }
 
-        case fromCategories.SELECT: {
+        case fromCategories.SELECT_ADD: {
             return {
                 ...state,
                 selectedCategories: [...state.selectedCategories, action.payload]
+            }
+        }
+
+        case fromCategories.SELECT_REMOVE: {
+            return {
+                ...state,
+                selectedCategories: state.selectedCategories.filter((selelctedCategory) => selelctedCategory !== action.payload)
             }
         }
 
