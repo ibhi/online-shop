@@ -6,26 +6,19 @@ import { ProductsState, productsReducer } from './products/reducers/products';
 import { CategoriesState, categoriesReducer } from './categories/reducers/categories';
 import { environment } from '../environments/environment'; // Angular CLI environment
 import { Product } from './product/models/product';
+import { loadingReducer, LoadingState } from './core/reducers/core';
 
 export interface AppState {
     products: ProductsState;
     categories: CategoriesState;
+    loading: LoadingState
 }
 
 export const appReducer: ActionReducerMap<AppState> = {
     products: productsReducer,
-    categories: categoriesReducer
+    categories: categoriesReducer,
+    loading: loadingReducer
 };
-
-// console.log all actions
-// export function logger(reducer: ActionReducer<AppState>): ActionReducer<AppState> {
-//     return function (state: AppState, action: any): AppState {
-//         console.log('state', state);
-//         console.log('action', action);
-
-//         return reducer(state, action);
-//     };
-// }
 
 export function logger(reducer: ActionReducer<AppState>): any {
     // default, no options
@@ -34,6 +27,7 @@ export function logger(reducer: ActionReducer<AppState>): any {
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [logger, storeFreeze] : [];
 
+// Filter products by selected category
 const categoriesSelector = (state: AppState) => state.categories;
 const selectedCategoriesSelector = createSelector(categoriesSelector, (categoriesState: CategoriesState) => categoriesState.selectedCategories);
 const productsSelector = (state: AppState) => state.products;

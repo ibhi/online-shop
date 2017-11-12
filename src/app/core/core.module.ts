@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { moltinProvider } from './moltin/provider/moltin.provider';
+import { FetchInterceptorService } from './services/fetch-interceptor.service';
 
 @NgModule({
   imports: [
@@ -8,7 +9,8 @@ import { moltinProvider } from './moltin/provider/moltin.provider';
   ],
   declarations: [],
   providers: [
-    moltinProvider
+    moltinProvider,
+    FetchInterceptorService
   ]
 })
 export class CoreModule { }
